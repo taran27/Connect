@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define interfaces for user information and token response
 interface UserPhotos {
@@ -32,7 +33,7 @@ interface UserUrls {
   users: string;
 }
 
-interface UserInfo {
+export interface UserInfo {
   active: boolean;
   addr_city: string | null;
   addr_country: string | null;
@@ -65,7 +66,7 @@ interface UserInfo {
   utcOffset: number;
 }
 
-interface TokenResponse {
+export interface TokenResponse {
   access_token: string;
   id: string;
   instance_url: string;
@@ -83,15 +84,15 @@ interface AuthState {
     isAuthenticated: boolean,
     userInfo: UserInfo | null,
     tokenData: TokenResponse | null
-  ) => void;
-  clearAuthState: () => void;
+  ) => Promise<void>;
+  clearAuthState: () => Promise<void>;
   loadAuthState: () => Promise<void>;
   isBiometricEnabled: boolean;
   setBiometricEnabled: (
     enabled: boolean,
     username?: string,
     password?: string
-  ) => void;
+  ) => Promise<void>;
   loadBiometricState: () => Promise<void>;
   getBiometricCredentials: () => Promise<{
     username: string;
@@ -108,28 +109,43 @@ export const useAuthStore = create<AuthState>((set) => ({
   // Biometric state
   isBiometricEnabled: false,
 
-  // Set authentication state
+  /**
+   * Set authentication state.
+   * - Stores `tokenData` securely in SecureStore.
+   * - Stores `userInfo` in AsyncStorage.
+   */
   setAuthState: async (isAuthenticated, userInfo, tokenData) => {
     try {
       set({ isAuthenticated, userInfo, tokenData });
 
-      if (userInfo) {
-        await SecureStore.setItemAsync("userInfo", JSON.stringify(userInfo));
-      }
+      // Store sensitive data (tokenData) in SecureStore
       if (tokenData) {
         await SecureStore.setItemAsync("tokenData", JSON.stringify(tokenData));
       }
+
+      // Store non-sensitive data (userInfo) in AsyncStorage
+      if (isAuthenticated && userInfo) {
+        await AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+      }
     } catch (error) {
       console.error("Failed to set authentication state:", error);
+      throw error; // Re-throw the error
     }
   },
 
-  // Clear authentication state but retain biometric credentials
+  /**
+   * Clear authentication state.
+   * - Removes `tokenData` from SecureStore.
+   * - Removes `userInfo` from AsyncStorage.
+   * - Retains biometric credentials.
+   */
   clearAuthState: async () => {
     try {
-      // Remove user info and token data but retain biometric credentials
-      await SecureStore.deleteItemAsync("userInfo");
+      // Remove sensitive data from SecureStore
       await SecureStore.deleteItemAsync("tokenData");
+
+      // Remove non-sensitive data from AsyncStorage
+      await AsyncStorage.removeItem("userInfo");
 
       set({
         isAuthenticated: false,
@@ -138,26 +154,39 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
     } catch (error) {
       console.error("Failed to clear authentication state:", error);
+      throw error; // Re-throw the error
     }
   },
 
-  // Load authentication state from storage with token and biometric validation
+  /**
+   * Load authentication state from storage.
+   * - Retrieves `tokenData` from SecureStore.
+   * - Retrieves `userInfo` from AsyncStorage.
+   * - Validates token expiration.
+   * - Loads biometric state.
+   */
   loadAuthState: async () => {
     try {
-      const storedUserInfo = await SecureStore.getItemAsync("userInfo");
+      // Load sensitive data from SecureStore
       const storedTokenData = await SecureStore.getItemAsync("tokenData");
+
+      // Load non-sensitive data from AsyncStorage
+      const storedUserInfo = await AsyncStorage.getItem("userInfo");
+
+      // Load biometric state from SecureStore
       const storedBiometricState = await SecureStore.getItemAsync(
         "isBiometricEnabled"
       );
 
       let isAuthenticated = false;
 
-      if (storedUserInfo && storedTokenData) {
-        const tokenData = JSON.parse(storedTokenData);
+      if (storedTokenData && storedUserInfo) {
+        const tokenData: TokenResponse = JSON.parse(storedTokenData);
 
         // Check if the token has expired
         const currentTime = Date.now();
-        const tokenExpiryTime = parseInt(tokenData.issued_at, 10) + 3600 * 1000; // Assuming 1 hour expiry
+        const tokenIssuedAt = parseInt(tokenData.issued_at, 10) * 1000; // Convert to milliseconds if necessary
+        const tokenExpiryTime = tokenIssuedAt + 3600 * 1000; // Assuming 1 hour expiry
 
         if (currentTime < tokenExpiryTime) {
           isAuthenticated = true;
@@ -168,8 +197,8 @@ export const useAuthStore = create<AuthState>((set) => ({
           });
         } else {
           // Token expired
-          await SecureStore.deleteItemAsync("userInfo");
           await SecureStore.deleteItemAsync("tokenData");
+          await AsyncStorage.removeItem("userInfo");
           set({
             isAuthenticated: false,
             userInfo: null,
@@ -193,10 +222,16 @@ export const useAuthStore = create<AuthState>((set) => ({
         tokenData: null,
         isBiometricEnabled: false,
       });
+      throw error; // Re-throw the error
     }
   },
 
-  // Toggle biometric authentication state and save credentials
+  /**
+   * Toggle biometric authentication state and save credentials.
+   * - If enabled, stores `biometricCredentials` in SecureStore.
+   * - If disabled, removes `biometricCredentials` from SecureStore.
+   * - Updates `isBiometricEnabled` flag in SecureStore.
+   */
   setBiometricEnabled: async (
     enabled,
     username?: string,
@@ -209,26 +244,34 @@ export const useAuthStore = create<AuthState>((set) => ({
             "Username and password are required to enable biometrics."
           );
         }
-        // Encrypt or securely store credentials
+        // Store biometric credentials securely
         await SecureStore.setItemAsync(
           "biometricCredentials",
           JSON.stringify({ username, password })
         );
       } else {
-        await SecureStore.deleteItemAsync("biometricCredentials"); // Clear credentials
+        // Clear biometric credentials
+        await SecureStore.deleteItemAsync("biometricCredentials");
       }
 
+      // Update biometric enabled state
       set({ isBiometricEnabled: enabled });
+
+      // Store biometric enabled flag in SecureStore
       await SecureStore.setItemAsync(
         "isBiometricEnabled",
         JSON.stringify(enabled)
       );
     } catch (error) {
       console.error("Failed to set biometric state:", error);
+      throw error; // Re-throw the error
     }
   },
 
-  // Retrieve stored credentials for biometric login
+  /**
+   * Retrieve stored credentials for biometric login.
+   * - Fetches `biometricCredentials` from SecureStore.
+   */
   getBiometricCredentials: async () => {
     try {
       const storedCredentials = await SecureStore.getItemAsync(
@@ -243,11 +286,14 @@ export const useAuthStore = create<AuthState>((set) => ({
       return JSON.parse(storedCredentials);
     } catch (error) {
       console.error("Failed to retrieve biometric credentials:", error);
-      return null;
+      throw error; // Re-throw the error
     }
   },
 
-  // Load biometric state from storage
+  /**
+   * Load biometric state from storage.
+   * - Retrieves `isBiometricEnabled` flag from SecureStore.
+   */
   loadBiometricState: async () => {
     try {
       const storedBiometricState = await SecureStore.getItemAsync(
@@ -261,6 +307,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.error("Failed to load biometric state:", error);
       set({ isBiometricEnabled: false });
+      throw error; // Re-throw the error
     }
   },
 }));
