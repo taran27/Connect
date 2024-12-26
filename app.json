@@ -28,9 +28,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/launch.png",
+      "image": "./assets/images/PhoneSplash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#000000",
+      "enableFullScreenImage_legacy": "true"
     },
     "ios": {
       "supportsTablet": true,
@@ -83,13 +84,15 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#3399FF",
-          "image": "./assets/images/launch.png",
+          "backgroundColor": "#30d1f1",
+          "image": "./assets/images/PhoneSplash.png",
           "dark": {
-            "image": "./assets/images/launch.png",
-            "backgroundColor": "#000000"
+            "image": "./assets/images/PhoneSplash.png",
+            "backgroundColor": "#303334"
           },
-          "imageWidth": 200
+          // "imageWidth": 200,
+          "resizeMode": "cover",
+          "enableFullScreenImage_legacy": "true"
         }
       ],
       [
