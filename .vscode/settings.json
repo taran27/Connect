@@ -1,0 +1,23 @@
+{
+  "cSpell.words": [
+    "bridgerins",
+    "BROWSABLE",
+    "calander",
+    "Dialpad",
+    "doesn",
+    "faceid",
+    "myapp",
+    "neumorphic",
+    "oauthredirect",
+    "Pressable"
+  ],
+  "files.exclude": {
+    "node_modules": true,
+    "dist": true,
+    "build": true,
+    ".expo": true,
+    ".expo-shared": true,
+    ".vscode": true,
+    ".git": true
+  }
+}

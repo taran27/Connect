@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "2490871a-ffd6-4ba2-a221-e5575e069850",
+		"name": "Bridger SalesForce Expo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25405404",
+		"_collection_link": "https://restless-astronaut-849054.postman.co/workspace/Team-Workspace~15bc2954-3d28-44db-859c-8113735a8213/collection/25405404-2490871a-ffd6-4ba2-a221-e5575e069850?action=share&source=collection_link&creator=25405404"
+	},
+	"item": [
+		{
+			"name": "SalesforceLogin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "3MVG9g9rbsTkKnAVIKtekNW5Sc8M2F_Rio7LnT8a262Wei9z31rYUb1Ybk8dSTftwpftQe1YlXG7Y5EKBxzMs",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "C365E50582193B3D069E2CC28A10FB94A95DB71EAD7181517D45CA2585BAFCF2",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "tsandhu@bridgerins.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "t@ranSingh27",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.salesforce.com/services/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"salesforce",
+						"com"
+					],
+					"path": [
+						"services",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SalesForcePolicyList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://bridgerins.my.salesforce.com/services/data/v57.0/query?q=SELECT+Id,Name+FROM+Account",
+					"protocol": "https",
+					"host": [
+						"bridgerins",
+						"my",
+						"salesforce",
+						"com"
+					],
+					"path": [
+						"services",
+						"data",
+						"v57.0",
+						"query"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT+Id,Name+FROM+Account"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AgencyDetails",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "00D1I000001VJCG!AQEAQPbclc5IGMjp08PFwmYOjLB10H_CwB_a1gl4rlvK62_pNPrnJ8V4soZQFsB5GkVqEzVOHyCEI7aT.VZbbtUDwJwQcYeU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://bridgerins.my.salesforce.com/services/data/v57.0/sobjects/Account/0011I000005Fd1UQAS",
+					"protocol": "https",
+					"host": [
+						"bridgerins",
+						"my",
+						"salesforce",
+						"com"
+					],
+					"path": [
+						"services",
+						"data",
+						"v57.0",
+						"sobjects",
+						"Account",
+						"0011I000005Fd1UQAS"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
