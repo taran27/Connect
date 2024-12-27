@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react'
 import {
   Platform,
   StyleSheet,
@@ -8,58 +8,58 @@ import {
   Pressable,
   Dimensions,
   Modal,
-} from "react-native";
+} from 'react-native'
 
-import { Text, View } from "@/components/Themed";
-import { LinearGradient } from "expo-linear-gradient";
-import { useColorScheme } from "@/components/useColorScheme";
-import colors from "@/constants/Colors";
-import { BarChart, PieChart } from "react-native-chart-kit";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { Text, View } from '@/components/Themed'
+import { LinearGradient } from 'expo-linear-gradient'
+import { useColorScheme } from '@/components/useColorScheme'
+import colors from '@/constants/Colors'
+import { BarChart, PieChart } from 'react-native-chart-kit'
+import { MaterialIcons } from '@expo/vector-icons'
+import { useLocalSearchParams } from 'expo-router'
 
 // Card component (reuse existing)
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 
 export default function ModalScreen() {
-  const colorScheme = useColorScheme() ?? "light";
-  const themeColors = colors[colorScheme];
+  const colorScheme = useColorScheme() ?? 'light'
+  const themeColors = colors[colorScheme]
   const { agencyName, agencyLocation, agencyPhone, agencyTasks } =
-    useLocalSearchParams();
+    useLocalSearchParams()
 
   // Mock data
   const mockAgentData = {
-    name: agencyName ?? "Agency Name",
-    location: agencyLocation ?? "Location",
-    phone: agencyPhone ?? "123-456-7890",
-    tasks: agencyTasks ?? ["Task 1", "Task 2", "Task 3"],
+    name: agencyName ?? 'Agency Name',
+    location: agencyLocation ?? 'Location',
+    phone: agencyPhone ?? '123-456-7890',
+    tasks: agencyTasks ?? ['Task 1', 'Task 2', 'Task 3'],
     performance: {
       ytdLossRatio: 12.5,
       monthlyLossRatios: [9.5, 11.5, 13.0, 12.5, 12.0],
       claimsProcessed: 150,
-      topPolicies: ["BI", "UMBI", "PD"],
+      topPolicies: ['BI', 'UMBI', 'PD'],
       agentPerformance: [
-        { name: "Agent A", value: 40 },
-        { name: "Agent B", value: 30 },
-        { name: "Agent C", value: 20 },
-        { name: "Agent D", value: 10 },
+        { name: 'Agent A', value: 40 },
+        { name: 'Agent B', value: 30 },
+        { name: 'Agent C', value: 20 },
+        { name: 'Agent D', value: 10 },
       ],
     },
-    rnaDates: ["2024-08", "2024-09", "2024-10", "2024-11", "2024-12"],
-  };
+    rnaDates: ['2024-08', '2024-09', '2024-10', '2024-11', '2024-12'],
+  }
 
   // State to toggle the menu modal
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false)
 
   const handleAction = (action: string) => {
-    alert(`Action: ${action}`);
-    setMenuVisible(false);
-  };
+    alert(`Action: ${action}`)
+    setMenuVisible(false)
+  }
 
   const gradientColors: [string, string] =
-    colorScheme === "light"
+    colorScheme === 'light'
       ? [themeColors.neuBackground, themeColors.neuShadowDark]
-      : [themeColors.neuBackground, themeColors.neuShadowLight];
+      : [themeColors.neuBackground, themeColors.neuShadowLight]
 
   return (
     <View style={{ flex: 1 }}>
@@ -75,7 +75,7 @@ export default function ModalScreen() {
               <Text style={styles.bold}>Name:</Text> {mockAgentData.name}
             </Text>
             <Text style={styles.text}>
-              <Text style={styles.bold}>Location:</Text>{" "}
+              <Text style={styles.bold}>Location:</Text>{' '}
               {mockAgentData.location}
             </Text>
           </Card>
@@ -84,11 +84,11 @@ export default function ModalScreen() {
           <Card>
             <Text style={styles.sectionTitle}>YTD Performance</Text>
             <Text style={styles.text}>
-              <Text style={styles.bold}>YTD Loss Ratio:</Text>{" "}
+              <Text style={styles.bold}>YTD Loss Ratio:</Text>{' '}
               {mockAgentData.performance.ytdLossRatio}%
             </Text>
             <Text style={styles.text}>
-              <Text style={styles.bold}>Claims Processed:</Text>{" "}
+              <Text style={styles.bold}>Claims Processed:</Text>{' '}
               {mockAgentData.performance.claimsProcessed}
             </Text>
           </Card>
@@ -106,14 +106,14 @@ export default function ModalScreen() {
                     },
                   ],
                 }}
-                width={Dimensions.get("window").width - 100}
+                width={Dimensions.get('window').width - 100}
                 height={220}
                 yAxisLabel=""
                 yAxisSuffix="%"
                 chartConfig={{
-                  backgroundColor: "#007AFF",
-                  backgroundGradientFrom: "#007AFF",
-                  backgroundGradientTo: "#4F94FF",
+                  backgroundColor: '#007AFF',
+                  backgroundGradientFrom: '#007AFF',
+                  backgroundGradientTo: '#4F94FF',
                   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                   barPercentage: 0.5,
                 }}
@@ -132,13 +132,13 @@ export default function ModalScreen() {
                     name: item.name,
                     population: item.value,
                     color: `#${Math.floor(Math.random() * 16777215).toString(
-                      16
+                      16,
                     )}`,
                     legendFontColor: themeColors.text,
                     legendFontSize: 15,
-                  })
+                  }),
                 )}
-                width={Dimensions.get("window").width - 100}
+                width={Dimensions.get('window').width - 100}
                 height={220}
                 chartConfig={{
                   backgroundColor: themeColors.background,
@@ -146,9 +146,9 @@ export default function ModalScreen() {
                   backgroundGradientTo: themeColors.background,
                   color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
                 }}
-                accessor={"population"}
-                backgroundColor={"transparent"}
-                paddingLeft={"15"}
+                accessor={'population'}
+                backgroundColor={'transparent'}
+                paddingLeft={'15'}
                 absolute
               />
             </View>
@@ -171,7 +171,7 @@ export default function ModalScreen() {
         style={[
           styles.fab,
           {
-            backgroundColor: colorScheme === "light" ? "#007AFF" : "#444444",
+            backgroundColor: colorScheme === 'light' ? '#007AFF' : '#444444',
             shadowColor: themeColors.neuShadowDark,
           },
         ]}
@@ -202,7 +202,7 @@ export default function ModalScreen() {
           >
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => handleAction("Contact Agent")}
+              onPress={() => handleAction('Contact Agent')}
             >
               <MaterialIcons name="phone" size={24} color={themeColors.text} />
               <Text style={[styles.menuText, { color: themeColors.text }]}>
@@ -211,7 +211,7 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => handleAction("View Report")}
+              onPress={() => handleAction('View Report')}
             >
               <MaterialIcons
                 name="article"
@@ -224,7 +224,7 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => handleAction("Reload Data")}
+              onPress={() => handleAction('Reload Data')}
             >
               <MaterialIcons
                 name="refresh"
@@ -237,7 +237,7 @@ export default function ModalScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => handleAction("Refresh")}
+              onPress={() => handleAction('Refresh')}
             >
               <MaterialIcons name="sync" size={24} color={themeColors.text} />
               <Text style={[styles.menuText, { color: themeColors.text }]}>
@@ -248,9 +248,9 @@ export default function ModalScreen() {
         </Pressable>
       </Modal>
 
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -259,13 +259,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "transparent",
+    alignItems: 'center',
+    backgroundColor: 'transparent',
     padding: 20,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   text: {
@@ -273,13 +273,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   bold: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   chartContainer: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent",
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
     borderRadius: 10,
   },
   chart: {
@@ -290,9 +290,9 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
     bottom: 30,
     right: 30,
     elevation: 8,
@@ -301,30 +301,30 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   fabText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 28,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 2,
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
   },
   modalContent: {
-    width: "90%",
+    width: '90%',
     borderRadius: 10,
     padding: 20,
     elevation: 5,
   },
   menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 15,
   },
   menuText: {
     fontSize: 18,
     marginLeft: 15,
   },
-});
+})

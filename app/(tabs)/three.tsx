@@ -1,72 +1,70 @@
-import React from "react";
-import { StyleSheet, ScrollView, Alert, TouchableOpacity } from "react-native";
-import { Text, View } from "@/components/Themed";
-import { useAuthStore } from "@/store/authStore";
-import Card from "@/components/Card";
-import { Ionicons } from "@expo/vector-icons";
+import React from 'react'
+import { StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native'
+import { Text, View } from '@/components/Themed'
+import { useAuthStore } from '@/store/authStore'
+import Card from '@/components/Card'
+import { Ionicons } from '@expo/vector-icons'
 
 const ProfileTab = () => {
-  const userInfo = useAuthStore((state) => state.userInfo);
-  const isBiometricEnabled = useAuthStore((state) => state.isBiometricEnabled);
-  const setBiometricEnabled = useAuthStore(
-    (state) => state.setBiometricEnabled
-  );
-  const clearAuthState = useAuthStore((state) => state.clearAuthState);
+  const userInfo = useAuthStore((state) => state.userInfo)
+  const isBiometricEnabled = useAuthStore((state) => state.isBiometricEnabled)
+  const setBiometricEnabled = useAuthStore((state) => state.setBiometricEnabled)
+  const clearAuthState = useAuthStore((state) => state.clearAuthState)
 
   const handleDisableBiometric = async () => {
     Alert.alert(
-      "Disable Biometrics",
-      "Are you sure you want to disable biometric login?",
+      'Disable Biometrics',
+      'Are you sure you want to disable biometric login?',
       [
         {
-          text: "Cancel",
-          style: "cancel",
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: "Disable",
-          style: "destructive",
+          text: 'Disable',
+          style: 'destructive',
           onPress: async () => {
-            await setBiometricEnabled(false);
-            Alert.alert("Success", "Biometric login has been disabled.");
+            await setBiometricEnabled(false)
+            Alert.alert('Success', 'Biometric login has been disabled.')
           },
         },
-      ]
-    );
-  };
+      ],
+    )
+  }
 
   const handleClearData = async () => {
     Alert.alert(
-      "Clear Data",
-      "This will log you out and clear all stored data. Continue?",
+      'Clear Data',
+      'This will log you out and clear all stored data. Continue?',
       [
         {
-          text: "Cancel",
-          style: "cancel",
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: "Clear Data",
-          style: "destructive",
+          text: 'Clear Data',
+          style: 'destructive',
           onPress: async () => {
-            await clearAuthState();
-            Alert.alert("Success", "All data has been cleared.");
+            await clearAuthState()
+            Alert.alert('Success', 'All data has been cleared.')
           },
         },
-      ]
-    );
-  };
+      ],
+    )
+  }
 
   if (!userInfo) {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>No Profile Data Available</Text>
       </View>
-    );
+    )
   }
 
   const {
-    first_name = "N/A",
-    last_name = "N/A",
-    email = "N/A",
+    first_name = 'N/A',
+    last_name = 'N/A',
+    email = 'N/A',
     mobile_phone,
     // photos,
     addr_city,
@@ -77,7 +75,7 @@ const ProfileTab = () => {
     nick_name,
     timezone,
     user_type,
-  } = userInfo;
+  } = userInfo
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -97,34 +95,34 @@ const ProfileTab = () => {
           {first_name} {last_name}
         </Text>
         <Text style={styles.email}>{email}</Text>
-        <Text style={[styles.status, { color: active ? "green" : "red" }]}>
-          Status: {active ? "Active" : "Inactive"}
+        <Text style={[styles.status, { color: active ? 'green' : 'red' }]}>
+          Status: {active ? 'Active' : 'Inactive'}
         </Text>
       </Card>
 
       {/* Detailed Information Section */}
       <Card style={styles.infoCard}>
         <Text style={styles.infoTitle}>Personal Details</Text>
-        <Text style={styles.info}>Nickname: {nick_name || "N/A"}</Text>
-        <Text style={styles.info}>User Type: {user_type || "N/A"}</Text>
-        <Text style={styles.info}>Timezone: {timezone || "N/A"}</Text>
+        <Text style={styles.info}>Nickname: {nick_name || 'N/A'}</Text>
+        <Text style={styles.info}>User Type: {user_type || 'N/A'}</Text>
+        <Text style={styles.info}>Timezone: {timezone || 'N/A'}</Text>
 
         <Text style={styles.infoTitle}>Contact</Text>
         <Text style={styles.info}>
-          📱 Mobile Phone: {mobile_phone || "No phone number available"}
+          📱 Mobile Phone: {mobile_phone || 'No phone number available'}
         </Text>
 
         <Text style={styles.infoTitle}>Address</Text>
         <Text style={styles.info}>
-          🏠{" "}
+          🏠{' '}
           {addr_city || addr_state || addr_country
-            ? `${addr_city || ""}, ${addr_state || ""}, ${addr_country || ""}`
-            : "No address available"}
+            ? `${addr_city || ''}, ${addr_state || ''}, ${addr_country || ''}`
+            : 'No address available'}
         </Text>
 
         <Text style={styles.infoTitle}>Account</Text>
         <Text style={styles.info}>
-          Email Verified: {email_verified ? "Yes" : "No"}
+          Email Verified: {email_verified ? 'Yes' : 'No'}
         </Text>
       </Card>
 
@@ -153,19 +151,19 @@ const ProfileTab = () => {
         </TouchableOpacity>
       </Card>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    alignItems: "center",
-    backgroundColor: "transparent",
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   profileCard: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
     borderRadius: 15,
     padding: 20,
     marginBottom: 20,
@@ -183,17 +181,17 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 15,
-    backgroundColor: "#ddd",
+    backgroundColor: '#ddd',
   },
   placeholderText: {
     fontSize: 16,
   },
   name: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 8,
   },
   email: {
@@ -203,10 +201,10 @@ const styles = StyleSheet.create({
   status: {
     fontSize: 16,
     marginTop: 5,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   infoCard: {
-    width: "100%",
+    width: '100%',
     borderRadius: 15,
     padding: 20,
     marginBottom: 20,
@@ -216,7 +214,7 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 5,
   },
@@ -225,7 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   actionCard: {
-    width: "100%",
+    width: '100%',
     borderRadius: 15,
     padding: 20,
     elevation: 2,
@@ -236,25 +234,25 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 10,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   disableButton: {
-    backgroundColor: "#ff4c4c",
+    backgroundColor: '#ff4c4c',
   },
   clearButton: {
-    backgroundColor: "#ff7f50",
+    backgroundColor: '#ff7f50',
   },
   actionButtonText: {
     fontSize: 16,
     marginLeft: 5,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   text: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
-});
+})
 
-export default ProfileTab;
+export default ProfileTab

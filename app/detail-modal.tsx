@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   TextInput,
@@ -8,124 +8,124 @@ import {
   Modal,
   Pressable,
   Platform,
-} from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import * as Linking from "expo-linking";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Text, View } from "@/components/Themed";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useColorScheme } from "@/components/useColorScheme";
-import colors from "@/constants/Colors";
-import * as Speech from "expo-speech";
+} from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import * as Linking from 'expo-linking'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Text, View } from '@/components/Themed'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useColorScheme } from '@/components/useColorScheme'
+import colors from '@/constants/Colors'
+import * as Speech from 'expo-speech'
 
 export default function DetailsModalScreen() {
-  const searchParams = useLocalSearchParams();
-  const router = useRouter();
-  const colorScheme = useColorScheme() ?? "light";
-  const themeColors = colors[colorScheme];
+  const searchParams = useLocalSearchParams()
+  const router = useRouter()
+  const colorScheme = useColorScheme() ?? 'light'
+  const themeColors = colors[colorScheme]
 
   // Parse the appointment
   const appointment = searchParams.appointment
     ? JSON.parse(searchParams.appointment as string)
-    : null;
+    : null
 
-  const [notes, setNotes] = useState(appointment?.notes || "");
-  const [timeLeft, setTimeLeft] = useState("");
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [notes, setNotes] = useState(appointment?.notes || '')
+  const [timeLeft, setTimeLeft] = useState('')
+  const [menuVisible, setMenuVisible] = useState(false)
 
   // Time-left calculation
   useEffect(() => {
     if (!appointment?.time) {
-      setTimeLeft("Time not available");
-      return;
+      setTimeLeft('Time not available')
+      return
     }
 
     const interval = setInterval(() => {
-      const appointmentTime = new Date(appointment.time);
-      const now = new Date();
+      const appointmentTime = new Date(appointment.time)
+      const now = new Date()
 
       if (isNaN(appointmentTime.getTime())) {
-        setTimeLeft("Invalid time format");
-        clearInterval(interval);
-        return;
+        setTimeLeft('Invalid time format')
+        clearInterval(interval)
+        return
       }
 
-      const diff = appointmentTime.getTime() - now.getTime();
+      const diff = appointmentTime.getTime() - now.getTime()
 
       if (diff <= 0) {
-        setTimeLeft("Started or Passed");
+        setTimeLeft('Started or Passed')
       } else {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        setTimeLeft(`${hours} hrs ${minutes} mins`);
+        const hours = Math.floor(diff / (1000 * 60 * 60))
+        const minutes = Math.floor((diff / (1000 * 60)) % 60)
+        setTimeLeft(`${hours} hrs ${minutes} mins`)
       }
-    }, 1000);
+    }, 1000)
 
-    return () => clearInterval(interval);
-  }, [appointment?.time]);
+    return () => clearInterval(interval)
+  }, [appointment?.time])
 
   const checkInToAppointment = () => {
     Alert.alert(
-      "Checked In",
-      `You have successfully checked in to ${appointment.title}.`
-    );
-  };
+      'Checked In',
+      `You have successfully checked in to ${appointment.title}.`,
+    )
+  }
 
   const handleTextToSpeech = () => {
-    if (notes.trim() === "") {
-      Alert.alert("No Notes", "There are no notes to read aloud.");
-      return;
+    if (notes.trim() === '') {
+      Alert.alert('No Notes', 'There are no notes to read aloud.')
+      return
     }
-    Speech.speak(notes, { language: "en-US" });
-  };
+    Speech.speak(notes, { language: 'en-US' })
+  }
 
   const openInMaps = () => {
-    const { latitude, longitude } = appointment;
-    let url = "";
-    if (Platform.OS === "ios") {
-      url = `maps://?q=${latitude},${longitude}`;
-    } else if (Platform.OS === "android") {
-      url = `geo:${latitude},${longitude}?q=${latitude},${longitude}`;
+    const { latitude, longitude } = appointment
+    let url = ''
+    if (Platform.OS === 'ios') {
+      url = `maps://?q=${latitude},${longitude}`
+    } else if (Platform.OS === 'android') {
+      url = `geo:${latitude},${longitude}?q=${latitude},${longitude}`
     } else {
-      url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+      url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
     }
 
     Linking.openURL(url).catch((err) => {
       Alert.alert(
-        "Error",
-        "Unable to open maps. Please check your settings or try again later."
-      );
-      console.error("Failed to open maps:", err);
-    });
-  };
+        'Error',
+        'Unable to open maps. Please check your settings or try again later.',
+      )
+      console.error('Failed to open maps:', err)
+    })
+  }
 
   const rescheduleAppointment = () => {
     Alert.alert(
-      "Reschedule Appointment",
-      `You can reschedule ${appointment.title}.`
-    );
-  };
+      'Reschedule Appointment',
+      `You can reschedule ${appointment.title}.`,
+    )
+  }
 
   const cancelAppointment = () => {
     Alert.alert(
-      "Cancel Appointment",
+      'Cancel Appointment',
       `Are you sure you want to cancel ${appointment.title}?`,
       [
-        { text: "No", style: "cancel" },
+        { text: 'No', style: 'cancel' },
         {
-          text: "Yes",
-          onPress: () => Alert.alert("Canceled", "Appointment canceled."),
+          text: 'Yes',
+          onPress: () => Alert.alert('Canceled', 'Appointment canceled.'),
         },
-      ]
-    );
-  };
+      ],
+    )
+  }
 
   const saveNotes = () => {
     Alert.alert(
-      "Notes Saved",
-      `Your notes for ${appointment.title} have been updated.`
-    );
-  };
+      'Notes Saved',
+      `Your notes for ${appointment.title} have been updated.`,
+    )
+  }
 
   if (!appointment) {
     return (
@@ -138,7 +138,7 @@ export default function DetailsModalScreen() {
           <Text style={styles.buttonText}>Close</Text>
         </TouchableOpacity>
       </View>
-    );
+    )
   }
 
   return (
@@ -202,8 +202,8 @@ export default function DetailsModalScreen() {
         />
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
           <TouchableOpacity
@@ -272,7 +272,7 @@ export default function DetailsModalScreen() {
         </Pressable>
       </Modal>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    width: Dimensions.get("window").width,
+    width: Dimensions.get('window').width,
     height: 200,
   },
   detailsSection: {
@@ -295,11 +295,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   bold: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   notesSection: {
@@ -307,73 +307,73 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#CCC",
+    borderColor: '#CCC',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     height: 80,
-    textAlignVertical: "top",
+    textAlignVertical: 'top',
   },
   button: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 15,
     flex: 1,
     borderRadius: 5,
   },
   saveButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: '#007AFF',
     marginRight: 10,
   },
   readButton: {
-    backgroundColor: "#48BB78", // Green for "Read Text" button
+    backgroundColor: '#48BB78', // Green for "Read Text" button
   },
   closeButton: {
-    backgroundColor: "#FF0000",
+    backgroundColor: '#FF0000',
     padding: 15,
   },
   buttonText: {
-    color: "#FFF",
-    fontWeight: "bold",
+    color: '#FFF',
+    fontWeight: 'bold',
   },
   fab: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 30,
     right: 30,
-    backgroundColor: "#007AFF",
+    backgroundColor: '#007AFF',
     width: 60,
     height: 60,
     borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
   fabText: {
     fontSize: 28,
-    color: "#FFF",
-    fontWeight: "bold",
+    color: '#FFF',
+    fontWeight: 'bold',
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     borderRadius: 10,
     padding: 20,
-    width: "80%",
+    width: '80%',
     elevation: 5,
   },
   menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 15,
   },
   menuText: {
     fontSize: 18,
     marginLeft: 15,
   },
-});
+})

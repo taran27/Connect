@@ -1,26 +1,17 @@
-import React from "react";
-import {
-  StyleSheet,
-  View,
-  StyleProp,
-  ViewStyle,
-  ImageBackground,
-  Image,
-} from "react-native";
-import Colors from "@/constants/Colors";
-import { useColorScheme } from "@/components/useColorScheme";
+import { StyleSheet, View, ImageBackground, Image } from 'react-native'
+import Colors from '@/constants/Colors'
+import { useColorScheme } from '@/components/useColorScheme'
+import launchImage from '@/assets/images/launch.png'
+import logoImage from '@/assets/images/Logo.png'
+import { LogoFooterProps } from '@/types/types'
 
-type Props = {
-  addedStyles?: StyleProp<ViewStyle>;
-};
-
-const LogoFooter: React.FC<Props> = ({ addedStyles }) => {
-  const colorScheme = useColorScheme() ?? "light";
-  const themeColors = Colors[colorScheme];
+const LogoFooter: React.FC<LogoFooterProps> = ({ addedStyles }) => {
+  const colorScheme = useColorScheme() ?? 'light'
+  const themeColors = Colors[colorScheme]
 
   return (
     <ImageBackground
-      source={require("../assets/images/launch.png")}
+      source={launchImage}
       style={[
         styles.background,
         {
@@ -30,30 +21,27 @@ const LogoFooter: React.FC<Props> = ({ addedStyles }) => {
       ]}
     >
       <View style={[styles.container, addedStyles]}>
-        <Image
-          source={require("../assets/images/Logo.png")}
-          style={styles.logo}
-        />
+        <Image source={logoImage} style={styles.logo} />
       </View>
     </ImageBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    justifyContent: "flex-start",
+    width: '100%',
+    justifyContent: 'flex-start',
     paddingLeft: 10,
   },
   logo: {
-    resizeMode: "contain",
-    width: "70%",
-    height: "120%",
+    resizeMode: 'contain',
+    width: '70%',
+    height: '120%',
   },
   background: {
     flex: 1,
-    width: "100%",
-    maxHeight: "25%",
+    width: '100%',
+    maxHeight: '25%',
     borderWidth: 3,
     borderLeftWidth: 0,
     borderRightWidth: 0,
@@ -63,6 +51,6 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 4,
   },
-});
+})
 
-export default LogoFooter;
+export default LogoFooter

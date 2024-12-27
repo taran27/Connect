@@ -1,27 +1,20 @@
-// Card.tsx
-import React from "react";
-import { StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { BlurView } from "expo-blur";
-import colors from "@/constants/Colors";
-import { useColorScheme } from "@/components/useColorScheme";
-
-type CardProps = Readonly<{
-  children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
-  blurIntensity?: number;
-}>;
+import { StyleSheet } from 'react-native'
+import { BlurView } from 'expo-blur'
+import colors from '@/constants/Colors'
+import { useColorScheme } from '@/components/useColorScheme'
+import { CardProps } from '@/types/types'
 
 export default function Card({
   children,
   style,
   blurIntensity = 75,
 }: CardProps) {
-  const colorScheme = useColorScheme() ?? "light";
-  const theme = colors[colorScheme];
+  const colorScheme = useColorScheme() ?? 'light'
+  const theme = colors[colorScheme]
 
   return (
     <BlurView
-      tint={colorScheme === "dark" ? "dark" : "light"}
+      tint={colorScheme === 'dark' ? 'dark' : 'light'}
       intensity={blurIntensity}
       style={[
         styles.card,
@@ -35,16 +28,16 @@ export default function Card({
     >
       {children}
     </BlurView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: "100%",
+    width: '100%',
     padding: 15,
     marginBottom: 15,
     borderRadius: 12,
-    overflow: "hidden",
+    overflow: 'hidden',
 
     // Shadow (typical range for shadowOpacity is 0.0-1.0, not 10)
     elevation: 12,
@@ -55,4 +48,4 @@ const styles = StyleSheet.create({
     // Border
     borderWidth: 2.5,
   },
-});
+})
