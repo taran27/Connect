@@ -1,93 +1,155 @@
-# Bridger Salesforce Agent App
+# 🚀 Connect
 
+## A Comprehensive Salesforce Integration Mobile App for Insurance Services
 
+---
 
-## Getting started
+## 📖 Description
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+**Connect** is a sophisticated mobile application designed to streamline agency interactions and improve operational efficiency for agents at Insurance Services. Leveraging seamless Salesforce integration through REST APIs, the app enables agents to effortlessly manage agency searches, calendar appointments, user profiles, biometric security, and local calendar synchronization—significantly enhancing productivity and user experience.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+---
 
-## Add your files
+## 🛠️ Tech Stack
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- **Framework:** React Native (Expo)
+- **Backend Integration:** Salesforce REST API, Google Calendar API
+- **State Management:** Zustand, React Query
+- **Build & CI/CD:** Expo EAS, GitLab CI/CD
+- **Testing & Quality:** Jest, ESLint, Prettier, Typescript
+- **Authentication & Security:** Expo Auth Session, JWT, Biometric Authentication (Face ID, Touch ID)
+- **Platform Support:** iOS, Android, Web (Preview Mode)
 
+---
+
+## ✅ Features & Functionality
+
+### 📍 Agency Lookup
+
+- **Real-time search:** Search agencies by Name, City, State, or Phone Number.
+- **Detailed agency view:** Includes agency address, phone number, status, and industry classification.
+
+### 📅 Appointment Management
+
+- **Integrated calendar:** View, create, and manage appointments seamlessly integrated with Salesforce.
+- **Event reminders:** Automatic reminders for upcoming appointments.
+- **Google Calendar integration:** Sync events bi-directionally.
+
+### 👤 User Profile Management
+
+- **Detailed profile:** View personal details, contact information, account status, and login statistics.
+- **Profile customization:** Upload profile images, manage settings, and adjust notification preferences.
+- **Biometric security:** Enable Face ID or Touch ID for secure access.
+
+### 🔒 Security & Authentication
+
+- **Secure login:** OAuth 2.0-based secure Salesforce login.
+- **Biometric authentication:** Device-native biometric authentication methods.
+- **Local data encryption:** Secure Store integration.
+
+### 🌐 Local & Remote Calendar Sync
+
+- **Device calendar synchronization:** Read-only integration to local device calendars.
+- **Real-time synchronization:** Periodic polling with Salesforce and Google Calendar.
+
+### 🎨 Theme Customization
+
+- **System, dark, and light modes:** Adaptive theming.
+
+### 📊 User Activity Monitoring
+
+- **Login analytics:** Track login activity and access details.
+- **Health status:** Real-time status indicators for integrations.
+
+---
+
+## 🛠️ Installation & Setup
+
+Clone the repository and install dependencies using Yarn:
+
+```bash
+yarn install
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/bridgerins/bridger-salesforce-agent-app.git
-git branch -M main
-git push -uf origin main
+
+### Run the App Locally
+
+- **Start Development Server**
+
+```bash
+yarn start
 ```
 
-## Integrate with your tools
+- **iOS Simulator/Device**
 
-- [ ] [Set up project integrations](https://gitlab.com/bridgerins/bridger-salesforce-agent-app/-/settings/integrations)
+```bash
+yarn ios
+```
 
-## Collaborate with your team
+- **Android Emulator/Device**
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+yarn android
+```
 
-## Test and Deploy
+- **Web Preview**
 
-Use the built-in continuous integration in GitLab.
+```bash
+yarn web
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Additional Utility Scripts
 
-***
+- **Testing**
 
-# Editing this README
+```bash
+yarn test
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- **Linting and Formatting**
 
-## Suggestions for a good README
+```bash
+yarn lint
+yarn format
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- **Clean Project Dependencies**
 
-## Name
-Choose a self-explaining name for your project.
+```bash
+yarn clean
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+---
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## 🖥️ Screenshots & Previews
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+_Placeholder for app screenshots and walkthrough GIFs._
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## 🤝 Contribution Guidelines
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/<feature-name>`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/<feature-name>`).
+5. Create a Merge Request (MR) describing the changes clearly.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+---
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## 👨‍💻 Development Team
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- Insurance Services Technical Team
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+---
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## 📄 License
 
-## License
-For open source projects, say how it is licensed.
+### To Be Determined
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+---
+
+## 📌 Project Status
+
+- ✅ **Actively Maintained**
+- 🚧 **In Continuous Development**
+- 🚀 **New Features Regularly Added**
