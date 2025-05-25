@@ -1,6 +1,6 @@
 # 🚀 Connect
 
-## A Comprehensive Salesforce Integration Mobile App for Insurance Services
+## A Comprehensive Salesforce Integration Mobile App for Insurance Services.
 
 ---
 
